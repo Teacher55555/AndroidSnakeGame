@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_marginStart="100dp"
+    android:layout_height="match_parent">
+
+    <Button
+        android:layout_marginTop="100dp"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textSize="20sp"
+        android:onClick="button1"/>
+
+    <Button
+        android:layout_marginTop="100dp"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:text="2"
+        android:textSize="20sp"
+        android:onClick="button2"/>
+
+    <Button
+        android:layout_marginTop="100dp"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:text="3"
+        android:textSize="20sp"
+        android:onClick="button3"/>
+
+    <Button
+        android:layout_marginTop="100dp"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:text="4"
+        android:textSize="20sp"
+        android:onClick="button4"/>
+
+    <Button
+        android:layout_marginTop="100dp"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:text="5"
+        android:textSize="20sp"
+        android:onClick="button5"/>
+
+    <Button
+        android:layout_marginTop="100dp"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:text="6"
+        android:textSize="20sp"
+        android:onClick="button6"/>
+
+
+
+</LinearLayout>
