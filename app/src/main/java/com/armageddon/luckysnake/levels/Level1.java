@@ -188,7 +188,7 @@ public class Level1 extends Level {
         stump2.start();
         startLevel();
         snake.start();
-        snake.setLifeCount(50);
+       
     }
 
 
