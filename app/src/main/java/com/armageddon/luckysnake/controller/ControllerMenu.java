@@ -9,6 +9,7 @@ import android.view.View;
 import com.armageddon.luckysnake.common.MainActivity;
 import com.armageddon.luckysnake.common.Music;
 import com.armageddon.luckysnake.levels.LevelMenu;
+import com.armageddon.luckysnake.view.IlevelsOpen;
 import com.armageddon.luckysnake.view.ShowHoleIn;
 
 import java.util.Map;
@@ -18,8 +19,11 @@ public class ControllerMenu implements Controller {
     private Music music;
     private Vibrator vb;
     private ShowHoleIn panel;
+    private IlevelsOpen menuPanel;
     private int menuSelect;
     private int rule;
+    private int openedLevel;
+    private int secretTouchCount;
     private boolean musicOn;
     private boolean soundOn;
     private boolean vibrationOn;
@@ -32,6 +36,14 @@ public class ControllerMenu implements Controller {
     private Rect radioButtonRect2;
     private Rect radioButtonRect3;
     private Rect continueRect;
+    private Rect level1Rect;
+    private Rect level2Rect;
+    private Rect level3Rect;
+    private Rect level4Rect;
+    private Rect level5Rect;
+    private Rect level6Rect;
+    private Rect level7Rect;
+
     private String afterHoleAction;
     private LevelMenu level;
 
@@ -54,19 +66,28 @@ public class ControllerMenu implements Controller {
     public void doAfterHoleAction () {
        switch (afterHoleAction) {
            case "exit" : System.exit(0);
-           case "play" : music.gameMusicStop(); activity.playGame(1);
+           case "play1" : music.gameMusicStop(); activity.playGame(1); break;
+           case "play2" : music.gameMusicStop(); activity.playGame(2); break;
+           case "play3" : music.gameMusicStop(); activity.playGame(3); break;
+           case "play4" : music.gameMusicStop(); activity.playGame(4); break;
+           case "play5" : music.gameMusicStop(); activity.playGame(5); break;
+           case "play6" : music.gameMusicStop(); activity.playGame(6); break;
+           case "play7" : music.gameMusicStop(); activity.playGame(7); break;
        }
    }
 
    public ControllerMenu (Map <String, Rect> buttons,
                           ShowHoleIn panel,
+                          IlevelsOpen menuPanel,
                           MainActivity activity,
                           Music music,
                           LevelMenu level) {
         this.activity = activity;
         this.panel = panel;
+        this.menuPanel = menuPanel;
         this.music = music;
         this.level = level;
+        this.openedLevel = activity.getOpenedLevel();
         musicOn = activity.isMusicOn();
         soundOn = activity.isSoundOn();
         vibrationOn = activity.isVibrationOn();
@@ -80,6 +101,13 @@ public class ControllerMenu implements Controller {
         radioButtonRect2 = buttons.get("radiofx");
         radioButtonRect3 = buttons.get("radiovibrator");
         continueRect = buttons.get("continue");
+        level1Rect = buttons.get("level1");
+        level2Rect = buttons.get("level2");
+        level3Rect = buttons.get("level3");
+        level4Rect = buttons.get("level4");
+        level5Rect = buttons.get("level5");
+        level6Rect = buttons.get("level6");
+        level7Rect = buttons.get("level7");
     }
 
     public View.OnClickListener getOnClickListener1 () {
@@ -152,6 +180,65 @@ public class ControllerMenu implements Controller {
         };
     }
 
+    public View.OnTouchListener getLevelListener () {
+        return new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                int x = (int) event.getX();
+                int y = (int) event.getY();
+
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (level1Rect.contains(x,y)) {
+                        panel.showHoleIn();
+                        afterHoleAction = "play1";
+                    }
+                    if (level2Rect.contains(x,y) && openedLevel > 1) {
+                        panel.showHoleIn();
+                        afterHoleAction = "play2";
+                    }
+                    if (level3Rect.contains(x,y) && openedLevel > 2) {
+                        panel.showHoleIn();
+                        afterHoleAction = "play3";
+                    }
+                    if (level4Rect.contains(x,y) && openedLevel > 3) {
+                        panel.showHoleIn();
+                        afterHoleAction = "play4";
+                    }
+                    if (level5Rect.contains(x,y) && openedLevel > 4) {
+                        panel.showHoleIn();
+                        afterHoleAction = "play5";
+                    }
+                    if (level6Rect.contains(x,y) && openedLevel > 5) {
+                        panel.showHoleIn();
+                        afterHoleAction = "play6";
+                    }
+
+                    if (level7Rect.contains(x,y) && openedLevel > 6) {
+                        panel.showHoleIn();
+                        afterHoleAction = "play7";
+                    }  else if (level7Rect.contains(x,y)) {
+                        secretTouchCount++;
+                        if (secretTouchCount == 30) {
+                            activity.setOpenedLevel(7);
+                            openedLevel = 7;
+                            music.lifeStart();
+                            menuPanel.initializeLevelsIcons();
+                            menuSelect = 4;
+                        }
+                    }
+
+
+                    if (continueRect.contains(x,y)){
+                        menuSelect = 0;
+                    }
+
+
+                }
+                return true;
+            }
+        };
+    }
+
     public int getMenuSelect () {
         return menuSelect;
     }
@@ -164,8 +251,9 @@ public class ControllerMenu implements Controller {
 
         if (event.getAction() == MotionEvent.ACTION_UP) {
             if (playRect.contains(x, y)) {
-                panel.showHoleIn();
-                afterHoleAction = "play";
+//                panel.showHoleIn();
+//                afterHoleAction = "play";
+                menuSelect = 4;
                 return true;
             }
 

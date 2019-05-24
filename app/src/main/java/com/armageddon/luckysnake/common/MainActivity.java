@@ -39,6 +39,7 @@ public class MainActivity extends Activity implements Serializable {
     private int snakeLife;
     private int lifeCheckPoint = 1000;
     private int currentLevel;
+    private int openedLevel = 1;
     private int nextLevel;
 
     private float scaleFactor;
@@ -50,9 +51,9 @@ public class MainActivity extends Activity implements Serializable {
     String modePng = "hd/png/";
     String modeGif = "hd/gif/";
 
-    public int getCurrentLevel() {
-        return currentLevel;
-    }
+    public int getOpenedLevel () {return openedLevel; }
+    public void setOpenedLevel(int openedLevel) { this.openedLevel = openedLevel; }
+    public int getCurrentLevel() { return currentLevel; }
     public int getNextLevel() {
         return nextLevel;
     }
@@ -87,9 +88,7 @@ public class MainActivity extends Activity implements Serializable {
     public void setSoundOn(boolean soundOn) {
         this.soundOn = soundOn;
     }
-    public void setBestRecord(int bestRecord) {
-        this.bestRecord = bestRecord;
-    }
+    public void setBestRecord(int bestRecord) { this.bestRecord = bestRecord; }
     public Rect getGameField() {
         return gameField;
     }
@@ -131,26 +130,30 @@ public class MainActivity extends Activity implements Serializable {
         screenWidth = displaymetrics.widthPixels;
         screenHeight = displaymetrics.heightPixels;
 
-        if (screenHeight == 720) {
-            scaleFactor = 1;
-        } else if (screenHeight == 1080) {
-            scaleFactor = 1.5f;
-            modePng = "fhd/png/";
-            modeGif = "fhd/gif/";
-        } else if (screenHeight == 1440) {
+        if (screenHeight >= 1440) {
             scaleFactor = 2;
             modePng = "qhd/png/";
             modeGif = "qhd/gif/";
+        } else if (screenHeight >= 1080) {
+            scaleFactor = 1.5f;
+            modePng = "fhd/png/";
+            modeGif = "fhd/gif/";
+        } else if (screenHeight >= 720) {
+            scaleFactor = 1;
         } else {
-           notSupportedRes = true;
+            notSupportedRes = true;
         }
 
         gameField.set((int) (screenWidth - 1225 * scaleFactor),
                 (int) (screenHeight - 660 * scaleFactor),
                 (int) (screenWidth - 296 * scaleFactor),
                 screenHeight);
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" );
+        System.out.println(displaymetrics.density);
+        System.out.println(displaymetrics.densityDpi);
+        System.out.println(screenWidth);
+        System.out.println(screenHeight);
     }
-
 
 
     @Override

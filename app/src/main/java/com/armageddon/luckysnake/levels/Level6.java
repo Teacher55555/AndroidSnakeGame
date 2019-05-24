@@ -41,7 +41,7 @@ public class Level6 extends Level {
                             new File(activity.getFilesDir(), "base.dat")));
 
             if (ois.readInt() == 6) {
-
+                activity.setOpenedLevel(ois.readInt());
                 activity.setBestRecord(ois.readInt());
                 activity.setMusicOn(ois.readBoolean());
                 activity.setSoundOn(ois.readBoolean());
@@ -163,6 +163,9 @@ public class Level6 extends Level {
 
 
         startLevel();
+        if (activity.getOpenedLevel() < 6) {
+            activity.setOpenedLevel(6);
+        }
         snake.start();
     }
 
@@ -292,7 +295,7 @@ public class Level6 extends Level {
                     new FileOutputStream(
                             new File(activity.getFilesDir(),"base.dat")));
             oos.writeInt(level);
-
+            oos.writeInt(activity.getOpenedLevel());
             oos.writeInt(activity.getBestRecord());
             oos.writeBoolean(activity.isMusicOn());
             oos.writeBoolean(activity.isSoundOn());

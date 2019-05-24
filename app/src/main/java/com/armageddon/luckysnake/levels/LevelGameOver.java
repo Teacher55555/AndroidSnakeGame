@@ -67,6 +67,7 @@ public class LevelGameOver implements Ilevel {
                     new FileOutputStream(
                             new File(activity.getFilesDir(),"base.dat")));
             oos.writeInt(-3);
+            oos.writeInt(activity.getOpenedLevel());
             oos.writeInt(activity.getBestRecord());
             oos.writeBoolean(activity.isMusicOn());
             oos.writeBoolean(activity.isSoundOn());

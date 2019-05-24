@@ -47,7 +47,7 @@ public class Level7 extends Level {
                             new File(activity.getFilesDir(), "base.dat")));
 
             if (ois.readInt() == 7) {
-
+                activity.setOpenedLevel(ois.readInt());
                 activity.setBestRecord(ois.readInt());
                 activity.setMusicOn(ois.readBoolean());
                 activity.setSoundOn(ois.readBoolean());
@@ -137,7 +137,11 @@ public class Level7 extends Level {
         drawElements.add(snake);
         drawElements.add(snakeGirl);
         startLevel();
+        if (activity.getOpenedLevel() < 7) {
+            activity.setOpenedLevel(7);
+        }
         snake.start();
+
         gameOnPause = false;
     }
 
@@ -157,6 +161,7 @@ public class Level7 extends Level {
                     new FileOutputStream(
                             new File(activity.getFilesDir(),"base.dat")));
             oos.writeInt(level);
+            oos.writeInt(activity.getOpenedLevel());
             oos.writeInt(activity.getBestRecord());
             oos.writeBoolean(activity.isMusicOn());
             oos.writeBoolean(activity.isSoundOn());

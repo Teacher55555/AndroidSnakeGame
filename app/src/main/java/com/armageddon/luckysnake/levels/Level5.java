@@ -60,7 +60,7 @@ public class Level5 extends Level {
                             new File(activity.getFilesDir(), "base.dat")));
 
             if (ois.readInt() == 5) {
-
+                activity.setOpenedLevel(ois.readInt());
                 activity.setBestRecord(ois.readInt());
                 activity.setMusicOn(ois.readBoolean());
                 activity.setSoundOn(ois.readBoolean());
@@ -243,6 +243,9 @@ public class Level5 extends Level {
         music.alienMonster();
         music.alienMonsterPause();
         startLevel();
+        if (activity.getOpenedLevel() < 5) {
+            activity.setOpenedLevel(5);
+        }
         snake.start();
 
     }
@@ -269,7 +272,7 @@ public class Level5 extends Level {
                     new FileOutputStream(
                             new File(activity.getFilesDir(),"base.dat")));
             oos.writeInt(level);
-
+            oos.writeInt(activity.getOpenedLevel());
             oos.writeInt(activity.getBestRecord());
             oos.writeBoolean(activity.isMusicOn());
             oos.writeBoolean(activity.isSoundOn());

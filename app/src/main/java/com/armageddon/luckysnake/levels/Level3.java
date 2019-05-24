@@ -77,6 +77,7 @@ public class Level3 extends Level {
                             new File(activity.getFilesDir(), "base.dat")));
 
             if (ois.readInt() == 3) {
+                activity.setOpenedLevel(ois.readInt());
                 activity.setBestRecord(ois.readInt());
                 activity.setMusicOn(ois.readBoolean());
                 activity.setSoundOn(ois.readBoolean());
@@ -401,6 +402,9 @@ public class Level3 extends Level {
         startLevel();
         music.tornado();
         music.tornadoPause();
+        if (activity.getOpenedLevel() < 3) {
+            activity.setOpenedLevel(3);
+        }
         snake.start();
     }
 
@@ -487,7 +491,7 @@ public class Level3 extends Level {
                     new FileOutputStream(
                             new File(activity.getFilesDir(), "base.dat")));
             oos.writeInt(level);
-
+            oos.writeInt(activity.getOpenedLevel());
             oos.writeInt(activity.getBestRecord());
             oos.writeBoolean(activity.isMusicOn());
             oos.writeBoolean(activity.isSoundOn());

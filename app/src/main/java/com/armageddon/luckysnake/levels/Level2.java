@@ -44,6 +44,7 @@ public class Level2 extends Level {
                                 new File(activity.getFilesDir(), "base.dat")));
 
                 if (ois.readInt() == 2) {
+                    activity.setOpenedLevel(ois.readInt());
                     activity.setBestRecord(ois.readInt());
                     activity.setMusicOn(ois.readBoolean());
                     activity.setSoundOn(ois.readBoolean());
@@ -115,6 +116,7 @@ public class Level2 extends Level {
         if (!isContinue)   {
             baseElementsInit();
             music = new Music(activity, level);
+//            activity.setOpenedLevel(2);
 
             lawnMover1 = new LawnMover(snake, null, 20, 3, false,
                     true, 1, 1, 152, 158);
@@ -174,6 +176,9 @@ public class Level2 extends Level {
 //            snake.setEatFruitForNewLevel(49); // УДАЛИТ !!!!!!
         }
         startLevel();
+        if (activity.getOpenedLevel() < 2) {
+            activity.setOpenedLevel(2);
+        }
         snake.start();
 //        snake.setEatFruitForNewLevel(49); // УДАЛИТЬ!!!!1
 
@@ -194,7 +199,7 @@ public class Level2 extends Level {
                     new FileOutputStream(
                             new File(activity.getFilesDir(),"base.dat")));
             oos.writeInt(level);
-
+            oos.writeInt(activity.getOpenedLevel());
             oos.writeInt(activity.getBestRecord());
             oos.writeBoolean(activity.isMusicOn());
             oos.writeBoolean(activity.isSoundOn());

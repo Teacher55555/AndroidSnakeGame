@@ -62,7 +62,7 @@ public class Level4 extends Level {
                             new File(activity.getFilesDir(), "base.dat")));
 
             if (ois.readInt() == 4) {
-
+                activity.setOpenedLevel(ois.readInt());
                 activity.setBestRecord(ois.readInt());
                 activity.setMusicOn(ois.readBoolean());
                 activity.setSoundOn(ois.readBoolean());
@@ -291,6 +291,9 @@ public class Level4 extends Level {
         gecko1.start();
         gecko2.start();
         startLevel();
+        if (activity.getOpenedLevel() < 4) {
+            activity.setOpenedLevel(4);
+        }
         snake.start();
     }
 
@@ -327,7 +330,7 @@ public class Level4 extends Level {
                     new FileOutputStream(
                             new File(activity.getFilesDir(),"base.dat")));
             oos.writeInt(level);
-
+            oos.writeInt(activity.getOpenedLevel());
             oos.writeInt(activity.getBestRecord());
             oos.writeBoolean(activity.isMusicOn());
             oos.writeBoolean(activity.isSoundOn());

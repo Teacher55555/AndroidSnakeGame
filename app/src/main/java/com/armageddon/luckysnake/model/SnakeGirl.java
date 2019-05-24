@@ -42,9 +42,9 @@ public class SnakeGirl extends Snake {
         this.panel = panel;
         this.activity = activity;
         thanksPoint.set((int) (Level.gameField.left + 80 * Level.scaleFactor),
-                (int) (250 * Level.scaleFactor));
-       toBeContinuePoint.set((int) (Level.gameField.left + 60 * Level.scaleFactor),
-               (int) (250 * Level.scaleFactor));
+                (int) (Level.gameField.top + 140 * Level.scaleFactor));
+        toBeContinuePoint.set((int) (Level.gameField.left + 60 * Level.scaleFactor),
+               (int) (Level.gameField.top + 140 * Level.scaleFactor));
     }
 
     private void checkTargetAndGo() {

@@ -2,7 +2,7 @@
 
 Google play link: "https://play.google.com/store/apps/details?id=com.armageddon.luckysnake".
 
-This game was completely written in java. It supports only small, normal, large screen sizes and next DPI: 320,480,640. Min android version 5.1 Lolipop.
+This game is completely written in java. It supports only small, normal, large screen sizes and next DPI: 320,480,640. Min android version 5.1 Lolipop.
 This library "https://github.com/koral--/android-gif-drawable" is used for displaying animated GIFs on Android
 
 The game has 8 levels: 5 game levels, 1 bonus level, 1 boss level, and 1 epilogue level. 

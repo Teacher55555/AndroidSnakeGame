@@ -31,6 +31,7 @@ public class LevelMenu implements Ilevel {
                    new FileInputStream(
                            new File(activity.getFilesDir(), "base.dat")));
            ois.readInt();
+           activity.setOpenedLevel(ois.readInt());
            activity.setBestRecord(ois.readInt());
            activity.setMusicOn(ois.readBoolean());
            activity.setSoundOn(ois.readBoolean());
@@ -49,7 +50,7 @@ public class LevelMenu implements Ilevel {
         music = new Music(activity,-3);
         panel = new PanelMenu(activity);
         ControllerMenu controller =
-                new ControllerMenu(panel.getButtons(),panel,activity,music, this);
+                new ControllerMenu(panel.getButtons(),panel, panel,activity,music, this);
         panel.setController(controller);
         music.gameMusic();
         saveData();
@@ -86,6 +87,7 @@ public class LevelMenu implements Ilevel {
                     new FileOutputStream(
                             new File(activity.getFilesDir(),"base.dat")));
             oos.writeInt(-3);
+            oos.writeInt(activity.getOpenedLevel());
             oos.writeInt(activity.getBestRecord());
             oos.writeBoolean(activity.isMusicOn());
             oos.writeBoolean(activity.isSoundOn());

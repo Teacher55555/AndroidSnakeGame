@@ -117,11 +117,12 @@ public abstract class Level implements Ilevel, Serializable {
         screenWidth = activity.getScreenWidth();
         scaleFactor = activity.getScaleFactor();
         gameField = activity.getGameField();
-        textPoint.set((int) (gameField.left + 80 * scaleFactor), (int) (400 * scaleFactor));
-        levelPoint.set((int) (gameField.left + 250 * scaleFactor), (int) (400 * scaleFactor));
-        numberPoint.set((int) (gameField.left + 420 * scaleFactor), (int) (400 * scaleFactor));
-        readyPoint.set((int)(gameField.left + 200 * scaleFactor), (int) (400 * scaleFactor));
-        goPoint.set((int)(gameField.left + 350 * scaleFactor), (int) (400 * scaleFactor));
+//        pausePoint.set((int) (gameField.left + 300 * scaleFactor), gameField.bottom/2);
+        textPoint.set((int) (gameField.left + 80 * scaleFactor), (int) (gameField.top + 350 * scaleFactor));
+        levelPoint.set((int) (gameField.left + 250 * scaleFactor), (int) (gameField.top + 350 * scaleFactor));
+        numberPoint.set((int) (gameField.left + 420 * scaleFactor), (int) (gameField.top + 350 * scaleFactor));
+        readyPoint.set((int)(gameField.left + 200 * scaleFactor), (int) (gameField.top + 350 * scaleFactor));
+        goPoint.set((int)(gameField.left + 350 * scaleFactor), (int) (gameField.top + 350 * scaleFactor));
     }
 
     public void home () {
@@ -130,6 +131,7 @@ public abstract class Level implements Ilevel, Serializable {
         isContinue = false;
         gameOnPause = false;
         snake.interrupt();
+        activity.setCurrentScore(0);
         activity.playGame(-3);
     }
 
@@ -137,6 +139,7 @@ public abstract class Level implements Ilevel, Serializable {
         music.stopAll();
         panel.showElemets(false);
         isContinue = false;
+        activity.setCurrentScore(0);
         snake.interrupt();
         gameOnPause = false;
 
@@ -146,6 +149,7 @@ public abstract class Level implements Ilevel, Serializable {
                             new FileOutputStream(
                                     new File(activity.getFilesDir(),"base.dat")));
             oos.writeInt(0);
+            oos.writeInt(activity.getOpenedLevel());
             oos.writeInt(activity.getBestRecord());
             oos.writeBoolean(activity.isMusicOn());
             oos.writeBoolean(activity.isSoundOn());
@@ -155,7 +159,7 @@ public abstract class Level implements Ilevel, Serializable {
         }catch (IOException e) {
             e.printStackTrace();
         }
-        activity.playGame(1);
+        activity.playGame(level);
     }
 
    public void nextLevel (final int nextLevel) {
@@ -180,6 +184,9 @@ public abstract class Level implements Ilevel, Serializable {
         snake.setScore(activity.getCurrentScore());
         snake.setLifeCheckPoint(activity.getLifeCheckPoint());
         music.gameMusic();
+            if (snake.getLifeCount() < 5) {
+                snake.setLifeCount(5);
+            }
         }
         Vibrator vb = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
         ControllerPlay controller = new ControllerPlay(snake, music, panel, vb, this);
@@ -193,6 +200,7 @@ public abstract class Level implements Ilevel, Serializable {
         controller.setPauseButtons(panel.getPauseButtons());
         panel.setElements(drawElements);
         panel.setController(controller);
+
     }
 
     boolean crashCheck (Rect snakeRec) {
@@ -231,6 +239,7 @@ public abstract class Level implements Ilevel, Serializable {
                     TimeUnit.MILLISECONDS.sleep(2000);
                 } catch (InterruptedException ex) {ex.printStackTrace();}
                 activity.setCurrentScore(snake.getScore());
+                activity.setCurrentLevel(level);
                 music.stopAll();
                 panel.showElemets(false);
                 isContinue = false;
@@ -413,7 +422,6 @@ public abstract class Level implements Ilevel, Serializable {
                     eatFruit(element);
                 } else if (element instanceof Fruits) {
                     eatFruits(element);
-
                 } else if (element instanceof Coin) {
                     coinTake(element);
                 } else if (element instanceof Scissors) {
@@ -448,7 +456,7 @@ public abstract class Level implements Ilevel, Serializable {
     }
 
     void eatFruit(GameElement element) {
-        snake.setEatFruitForNewLevel(snake.getEatFruitForNewLevel() + 1);
+        snake.setEatFruitForNewLevel(snake.getEatFruitForNewLevel() + 2);  // вернуть 1
         snake.setEatFruitForFruits(snake.getEatFruitForFruits() + 1);
         snake.setEatFruitForSpeed(snake.getEatFruitForSpeed() + 1);
         snake.setEatFruitForCoin(snake.getEatFruitForCoin() + 1);

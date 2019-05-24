@@ -34,7 +34,7 @@ public LevelBonus (final MainActivity activity) {
                         new File(activity.getFilesDir(), "base.dat")));
 
         if (ois.readInt() == 0) {
-
+            activity.setOpenedLevel(ois.readInt());
             activity.setBestRecord(ois.readInt());
             activity.setMusicOn(ois.readBoolean());
             activity.setSoundOn(ois.readBoolean());
@@ -120,6 +120,9 @@ public LevelBonus (final MainActivity activity) {
     panel.setElements(drawElements);
 
     startLevel();
+    if (activity.getOpenedLevel() < 4) {
+        activity.setOpenedLevel(4);
+    }
     snake.start();
 
     }
@@ -148,7 +151,7 @@ public LevelBonus (final MainActivity activity) {
                     new FileOutputStream(
                             new File(activity.getFilesDir(),"base.dat")));
             oos.writeInt(level);
-
+            oos.writeInt(activity.getOpenedLevel());
             oos.writeInt(activity.getBestRecord());
             oos.writeBoolean(activity.isMusicOn());
             oos.writeBoolean(activity.isSoundOn());

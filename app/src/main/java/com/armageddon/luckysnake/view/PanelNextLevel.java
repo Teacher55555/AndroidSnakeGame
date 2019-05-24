@@ -38,19 +38,19 @@ public class PanelNextLevel extends Panel implements ShowHoleIn {
 
         levelPoint.set(
                 (int)(screenWidth - 970 * scaleFactor),
-                (int)(280 * scaleFactor));
+                (int)(screenHeight - 440 * scaleFactor));
 
         bonusLevelPoint.set(
                 (int)(screenWidth - 1080 * scaleFactor),
-                (int)(280 * scaleFactor));
+                (int)(screenHeight - 440 * scaleFactor));
 
         completePoint.set(
                 (int)(screenWidth - 1070 * scaleFactor),
-                (int)(420 * scaleFactor));
+                (int)(screenHeight - 300 * scaleFactor));
 
         continuePoint.set(
                 (int)(screenWidth - 1000 * scaleFactor),
-                (int)(630 * scaleFactor));
+                (int)(screenHeight - 90 * scaleFactor));
 
     }
 

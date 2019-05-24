@@ -30,7 +30,8 @@ public class ControllerGameOver implements Controller {
             case "exit" : System.exit(0); break;
             case "play" :
                 music.stopAll();
-                activity.playGame(1);
+                activity.setCurrentScore(0);
+                activity.playGame(activity.getCurrentLevel());
                 break;
             case "home" :
                 music.stopAll();

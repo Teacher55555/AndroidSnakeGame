@@ -21,8 +21,8 @@ android {
         applicationId "com.armageddon.luckysnake"
         minSdkVersion 22
         targetSdkVersion 27
-        versionCode 3
-        versionName "1.0"
+        versionCode 5
+        versionName "1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

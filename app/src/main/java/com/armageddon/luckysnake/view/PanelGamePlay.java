@@ -87,6 +87,7 @@ public class PanelGamePlay extends Panel implements ShowHoleIn {
     private Bitmap pillow;
     private Bitmap blanket;
     private Bitmap backet;
+    private Bitmap finishLine;
 
 
     private GifDrawable fruitCup;
@@ -368,6 +369,8 @@ public class PanelGamePlay extends Panel implements ShowHoleIn {
                     (activity.getAssets().open(modePng + "speed80.png"));
             speed100 = BitmapFactory.decodeStream
                     (activity.getAssets().open(modePng + "speed100.png"));
+            finishLine = BitmapFactory.decodeStream
+                    (activity.getAssets().open(modePng + "finish.png"));
             life = BitmapFactory.decodeStream
                     (activity.getAssets().open(modePng + "life.png"));
             apple = new GifDrawable
@@ -570,27 +573,27 @@ public class PanelGamePlay extends Panel implements ShowHoleIn {
 
         backRect.set(
                 (int)(gameField.left + 170 * scaleFactor),
-                (int)(400 * scaleFactor),
+                (int)(gameField.bottom - 320 * scaleFactor),
                 (int)((gameField.left + 170 * scaleFactor) + repeatButton.getMinimumWidth()),
-                (int)((400 * scaleFactor) + repeatButton.getMinimumHeight()));
+                (int)((gameField.bottom - 320 * scaleFactor) + repeatButton.getMinimumHeight()));
 
         musicRect.set(
                 (int)(backRect.right + 60 * scaleFactor),
-                (int)(400 * scaleFactor),
+                (int)(backRect.top),
                 (int)((backRect.right + 60 * scaleFactor) + likeButton.getMinimumWidth()),
-                (int)((400 * scaleFactor) + likeButton.getMinimumHeight()));
+                (int)(backRect.bottom));
 
         soundRect.set(
                 (int)(musicRect.right + 60 * scaleFactor),
-                (int)(400 * scaleFactor),
+                (int)(backRect.top),
                 (int)((musicRect.right + 60 * scaleFactor) + shareButton.getMinimumWidth()),
-                (int)((400 * scaleFactor) + shareButton.getMinimumHeight()));
+                (int)(backRect.bottom));
 //
         vibroRect.set(
                 (int)(soundRect.right + 60 * scaleFactor),
-                (int)(400 * scaleFactor),
+                (int)(backRect.top),
                 (int)((soundRect.right + 60 * scaleFactor) + backButton.getMinimumWidth()),
-                (int)((400 * scaleFactor) + backButton.getMinimumHeight()));
+                (int)(backRect.bottom));
 
         pausePoint.set(
                 (int) (gameField.left + 300 * scaleFactor),
@@ -598,33 +601,33 @@ public class PanelGamePlay extends Panel implements ShowHoleIn {
 //
         repeatRect.set(
                 (int)(gameField.left + 95 * scaleFactor),
-                (int)(400 * scaleFactor),
+                (int)(gameField.bottom - 320 * scaleFactor),
                 (int)((gameField.left + 95 * scaleFactor) + repeatButton.getMinimumWidth()),
-                (int)((400 * scaleFactor) + repeatButton.getMinimumHeight()));
+                (int)((gameField.bottom - 320 * scaleFactor) + repeatButton.getMinimumHeight()));
 
         likeRect.set(
                 (int)(repeatRect.right + 60 * scaleFactor),
-                (int)(400 * scaleFactor),
+                (int)(repeatRect.top),
                 (int)((repeatRect.right + 60 * scaleFactor) + likeButton.getMinimumWidth()),
-                (int)((400 * scaleFactor) + likeButton.getMinimumHeight()));
+                (int)(repeatRect.bottom));
 
         shareRect.set(
                 (int)(likeRect.right + 60 * scaleFactor),
-                (int)(400 * scaleFactor),
+                (int)(repeatRect.top),
                 (int)((likeRect.right + 60 * scaleFactor) + shareButton.getMinimumWidth()),
-                (int)((400 * scaleFactor) + shareButton.getMinimumHeight()));
+                (int)(repeatRect.bottom));
 
         settingsRect.set(
                 (int)(shareRect.right + 60 * scaleFactor),
-                (int)(400 * scaleFactor),
+                (int)(repeatRect.top),
                 (int)((shareRect.right + 60 * scaleFactor) + settingsButton.getMinimumWidth()),
-                (int)((400 * scaleFactor) + settingsButton.getMinimumHeight()));
+                (int)(repeatRect.bottom));
 
         homeRect.set(
                 (int)(settingsRect.right + 60 * scaleFactor),
-                (int)(400 * scaleFactor),
+                (int)(repeatRect.top),
                 (int)((settingsRect.right + 60 * scaleFactor) + homeButton.getMinimumWidth()),
-                (int)((400 * scaleFactor) + homeButton.getMinimumHeight()));
+                (int)(repeatRect.bottom));
 
         continueRect.set(
                 (int)(gameField.left + 200 * scaleFactor),
@@ -850,6 +853,7 @@ public class PanelGamePlay extends Panel implements ShowHoleIn {
         backButton.recycle();
         click.recycle();
         play.recycle();
+        finishLine.recycle();
 
         switch (level) {
             case 1:
@@ -1013,6 +1017,7 @@ public class PanelGamePlay extends Panel implements ShowHoleIn {
     @Override
     protected void onDraw(Canvas canvas) {
 
+        canvas.drawColor(Color.BLACK);
 
         if (showElemets) {
             super.onDraw(canvas);
@@ -1274,73 +1279,75 @@ public class PanelGamePlay extends Panel implements ShowHoleIn {
                     scorePaint.setTextSize(30 * scaleFactor);
 
                     if (snake.getGameLevel() == 0) {
-                        canvas.drawText("Bonus", (int) (screenWidth - 170 * scaleFactor), (int) (120 * scaleFactor), scorePaint);
+                        canvas.drawText("Bonus", (int) (screenWidth - 170 * scaleFactor), (int) (screenHeight - 600 * scaleFactor), scorePaint);
                     }
 
                     if (snake.getGameLevel() != 6 && snake.getGameLevel() != 0) {
-                        canvas.drawText("Level " + String.valueOf(snake.getGameLevel()), (int) (screenWidth - 175 * scaleFactor), (int) (105 * scaleFactor), scorePaint);
+                        canvas.drawText("Level " + String.valueOf(snake.getGameLevel()), (int) (screenWidth - 175 * scaleFactor), (int) (screenHeight - 615 * scaleFactor), scorePaint);
 
                         // Finish line
 
-                        int top = 114;
-                        int bottom = 117;
-                        for (int i = 0; i < 18; i++) {
-                            if (finishLinePaint.getColor() == Color.WHITE) {
-                                finishLinePaint.setColor(Color.BLACK);
-                            } else {
-                                finishLinePaint.setColor(Color.WHITE);
-                            }
-                            finishRect.set((int) (screenWidth - 65 * scaleFactor),
-                                    (int) ((top) * scaleFactor),
-                                    (int) (screenWidth - 62 * scaleFactor),
-                                    (int) ((bottom) * scaleFactor));
-                            canvas.drawRect(finishRect, finishLinePaint);
-
-                            if (finishLinePaint.getColor() == Color.WHITE) {
-                                finishLinePaint.setColor(Color.BLACK);
-                            } else {
-                                finishLinePaint.setColor(Color.WHITE);
-                            }
-
-                            finishRect.set((int) (screenWidth - 62 * scaleFactor),
-                                    (int) ((top) * scaleFactor),
-                                    (int) (screenWidth - 59 * scaleFactor),
-                                    (int) ((bottom) * scaleFactor));
-                            canvas.drawRect(finishRect, finishLinePaint);
-
-                            if (finishLinePaint.getColor() == Color.WHITE) {
-                                finishLinePaint.setColor(Color.BLACK);
-                            } else {
-                                finishLinePaint.setColor(Color.WHITE);
-                            }
-                            finishRect.set((int) (screenWidth - 59 * scaleFactor),
-                                    (int) ((top) * scaleFactor),
-                                    (int) (screenWidth - 56 * scaleFactor),
-                                    (int) ((bottom) * scaleFactor));
-                            canvas.drawRect(finishRect, finishLinePaint);
-                            top += 3;
-                            bottom += 3;
-                        }
+                        canvas.drawBitmap(finishLine,screenWidth - 65 * scaleFactor, screenHeight - 608 * scaleFactor , null);
+//
+//                        int top = 114;
+//                        int bottom = 117;
+//                        for (int i = 0; i < 18; i++) {
+//                            if (finishLinePaint.getColor() == Color.WHITE) {
+//                                finishLinePaint.setColor(Color.BLACK);
+//                            } else {
+//                                finishLinePaint.setColor(Color.WHITE);
+//                            }
+//                            finishRect.set((int) (screenWidth - 65 * scaleFactor),
+//                                    (int) ((top) * scaleFactor),
+//                                    (int) (screenWidth - 62 * scaleFactor),
+//                                    (int) ((bottom) * scaleFactor));
+//                            canvas.drawRect(finishRect, finishLinePaint);
+//
+//                            if (finishLinePaint.getColor() == Color.WHITE) {
+//                                finishLinePaint.setColor(Color.BLACK);
+//                            } else {
+//                                finishLinePaint.setColor(Color.WHITE);
+//                            }
+//
+//                            finishRect.set((int) (screenWidth - 62 * scaleFactor),
+//                                    (int) ((top) * scaleFactor),
+//                                    (int) (screenWidth - 59 * scaleFactor),
+//                                    (int) ((bottom) * scaleFactor));
+//                            canvas.drawRect(finishRect, finishLinePaint);
+//
+//                            if (finishLinePaint.getColor() == Color.WHITE) {
+//                                finishLinePaint.setColor(Color.BLACK);
+//                            } else {
+//                                finishLinePaint.setColor(Color.WHITE);
+//                            }
+//                            finishRect.set((int) (screenWidth - 59 * scaleFactor),
+//                                    (int) ((top) * scaleFactor),
+//                                    (int) (screenWidth - 56 * scaleFactor),
+//                                    (int) ((bottom) * scaleFactor));
+//                            canvas.drawRect(finishRect, finishLinePaint);
+//                            top += 3;
+//                            bottom += 3;
+//                        }
 
 
                         // // Draw HUD (Progress)
                         canvas.drawBitmap(snakeTailRight, (int) (screenWidth - 225 * scaleFactor),
-                                (int) (130 * scaleFactor), null);
+                                (int) (screenHeight - 590 * scaleFactor), null);
                         int xBody = (int) (screenWidth - 225 * scaleFactor);
                         int xHead = (int) (screenWidth - 210 * scaleFactor); // 1070
                         for (int i = 0; i < 5; i++) {
                             if (xHead + snake.getEatFruitForNewLevel() * 2 * scaleFactor - xBody > 0)
                                 canvas.drawBitmap(snakeBodyHorizontal, ((xBody += 20 * scaleFactor)),
-                                        (int) (130 * scaleFactor), null);
+                                        (int) (screenHeight - 590 * scaleFactor), null);
                         }
                         if ((xHead + snake.getEatFruitForNewLevel() * 2) <= screenWidth - 110 * scaleFactor) {
                             canvas.drawBitmap(snakeHeadRight,
                                     (int) ((xHead + snake.getEatFruitForNewLevel() * 2 * scaleFactor)),
-                                    (int) (110 * scaleFactor), null);
+                                    (int) (screenHeight - 610 * scaleFactor), null);
                         } else {
                             canvas.drawBitmap(snakeHeadRight,
                                     (int) ((screenWidth - 110 * scaleFactor)),
-                                    (int) (110 * scaleFactor), null);
+                                    (int) (screenHeight - 610 * scaleFactor), null);
                         }
 
                     }
@@ -1361,7 +1368,7 @@ public class PanelGamePlay extends Panel implements ShowHoleIn {
 
                     canvas.drawText("Score " + snake.getScore(),
                             (int) (screenWidth - xOffSet * scaleFactor),
-                            (int) (240 * scaleFactor),
+                            (int) (screenHeight - 480 * scaleFactor),
                             scorePaint);
 
 
@@ -1369,22 +1376,22 @@ public class PanelGamePlay extends Panel implements ShowHoleIn {
                     if (snake.getLifeCount() > 5 && snake.getLifeCount() < 10) {
                         canvas.drawText(snake.getLifeCount() + " x ",
                                 (int) (screenWidth - 170 * scaleFactor),
-                                (int) (282 * scaleFactor),
+                                (int) (screenHeight - 438 * scaleFactor),
                                 scorePaint);
                         canvas.drawBitmap(life,
                                 (int) (screenWidth - 125 * scaleFactor),
-                                (int) (250 * scaleFactor),
+                                (int) (screenHeight - 470 * scaleFactor),
                                 null);
                     }
 
                     else if (snake.getLifeCount() >= 10) {
                         canvas.drawText(snake.getLifeCount() + " x ",
                                 (int) (screenWidth - 180 * scaleFactor),
-                                (int) (282 * scaleFactor),
+                                (int) (screenHeight - 438 * scaleFactor),
                                 scorePaint);
                         canvas.drawBitmap(life,
                                 (int) (screenWidth - 120 * scaleFactor),
-                                (int) (250 * scaleFactor),
+                                (int) (screenHeight - 470 * scaleFactor),
                                 null);
                     }
 
@@ -1393,7 +1400,7 @@ public class PanelGamePlay extends Panel implements ShowHoleIn {
                             canvas.drawBitmap(life,
                                     (int) (screenWidth - 85 * scaleFactor) -
                                             ((life.getWidth() + (int) 2.5 * scaleFactor) * i),
-                                    (int) (250 * scaleFactor), null);
+                                    (int) (screenHeight - 470 * scaleFactor), null);
                         }
                     }
 
@@ -1416,7 +1423,8 @@ public class PanelGamePlay extends Panel implements ShowHoleIn {
                                 speed = speed100;
                                 break;
                         }
-                        canvas.drawBitmap(speed, (int) (screenWidth - 195 * scaleFactor), (int) (350 * scaleFactor), null);
+                        canvas.drawBitmap(speed, (int) (screenWidth - 195 * scaleFactor),
+                                (int) (screenHeight - 370 * scaleFactor), null);
                     }
 
                     // draw body
@@ -1597,17 +1605,17 @@ public class PanelGamePlay extends Panel implements ShowHoleIn {
                     //draw Boss Energy
 
                     canvas.drawText("Boss", (int) (screenWidth - 160 * scaleFactor),
-                            (int) (115 * scaleFactor), scorePaint);
+                            (int) (screenHeight - 605 * scaleFactor), scorePaint);
 
                     bossEnergyBorderRect.set((int) (screenWidth - 210 * scaleFactor),
-                            (int) (130 * scaleFactor),
+                            (int) (screenHeight - 590 * scaleFactor),
                             (int) (screenWidth - 60 * scaleFactor),
-                            (int) (150 * scaleFactor));
+                            (int) (screenHeight - 570 * scaleFactor));
                     canvas.drawRect(bossEnergyBorderRect, bossEnergyBorder);
                     bossEnergyRect.set((int) (screenWidth - 210 * scaleFactor),
-                            (int) (130 * scaleFactor),
+                            (int) (screenHeight - 590 * scaleFactor),
                             (int) (screenWidth - (60 + object.getBossEnergy() * 15) * scaleFactor),
-                            (int) (150 * scaleFactor));
+                            (int) (screenHeight - 570 * scaleFactor));
                     canvas.drawRect(bossEnergyRect, bossEnergy);
 
                     if (object.isShowZombie()) {

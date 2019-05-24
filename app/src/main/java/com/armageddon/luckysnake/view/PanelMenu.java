@@ -13,13 +13,15 @@ import com.armageddon.luckysnake.common.MainActivity;
 import com.armageddon.luckysnake.controller.ControllerMenu;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import pl.droidsonroids.gif.GifDrawable;
 
 
-public class PanelMenu extends Panel implements ShowHoleIn{
+public class PanelMenu extends Panel implements ShowHoleIn, IlevelsOpen {
 
     MainActivity activity;
     Map<String,Rect> buttons = new HashMap<>();
@@ -38,6 +40,14 @@ public class PanelMenu extends Panel implements ShowHoleIn{
     Bitmap title;
     Bitmap rule1;
     Bitmap rule2;
+    Bitmap level1icon;
+    Bitmap level2icon;
+    Bitmap level3icon;
+    Bitmap level4icon;
+    Bitmap level5icon;
+    Bitmap level6icon;
+    Bitmap level7icon;
+    Bitmap lockicon;
 
     Point headerPoint = new Point();
     Point recordPoint = new Point();
@@ -61,6 +71,14 @@ public class PanelMenu extends Panel implements ShowHoleIn{
     Rect radioButtonRect2 = new Rect();
     Rect radioButtonRect3 = new Rect();
     Rect continueRect = new Rect();
+    Rect level1Rect = new Rect();
+    Rect level2Rect = new Rect();
+    Rect level3Rect = new Rect();
+    Rect level4Rect = new Rect();
+    Rect level5Rect = new Rect();
+    Rect level6Rect = new Rect();
+    Rect level7Rect = new Rect();
+
 
     ControllerMenu controller;
 
@@ -84,6 +102,8 @@ public class PanelMenu extends Panel implements ShowHoleIn{
 
 //        holePaint.setAlpha((int) holeAlphaMult);
 
+
+
         try {
             background = BitmapFactory.decodeStream(
                     activity.getAssets().open( modePng + "background.png"));
@@ -95,6 +115,22 @@ public class PanelMenu extends Panel implements ShowHoleIn{
                     activity.getAssets().open( modePng + "rule1.png"));
             rule2 = BitmapFactory.decodeStream(
                     activity.getAssets().open( modePng + "rule2.png"));
+            level1icon = BitmapFactory.decodeStream(
+                    activity.getAssets().open( modePng + "level1icon.png"));
+            level2icon = BitmapFactory.decodeStream(
+                    activity.getAssets().open( modePng + "level2icon.png"));
+            level3icon = BitmapFactory.decodeStream(
+                    activity.getAssets().open( modePng + "level3icon.png"));
+            level4icon = BitmapFactory.decodeStream(
+                    activity.getAssets().open( modePng + "level4icon.png"));
+            level5icon = BitmapFactory.decodeStream(
+                    activity.getAssets().open( modePng + "level5icon.png"));
+            level6icon = BitmapFactory.decodeStream(
+                    activity.getAssets().open( modePng + "level6icon.png"));
+            level7icon = BitmapFactory.decodeStream(
+                    activity.getAssets().open( modePng + "level7icon.png"));
+            lockicon = BitmapFactory.decodeStream(
+                    activity.getAssets().open( modePng + "lockicon.png"));
             exitButton = new GifDrawable(
                     activity.getAssets().openFd( modeGif + "exit.gif"));
             recordButton = new GifDrawable(
@@ -117,62 +153,42 @@ public class PanelMenu extends Panel implements ShowHoleIn{
                 (int)(20 * scaleFactor + exitButton.getMinimumHeight()));
 
         playRect.set(
-                     (screenWidth/2 - playButton.getWidth()/2),
-                (int)(250 * scaleFactor),
-                     ((screenWidth/2 - playButton.getWidth()/2) + playButton.getWidth()),
-                (int)((250 * scaleFactor) + playButton.getHeight()));
+                (screenWidth/2 - playButton.getWidth()/2),
+                (screenHeight/2 - playButton.getHeight()/2),
+                ((screenWidth/2 - playButton.getWidth()/2) + playButton.getWidth()),
+                ((screenHeight/2 - playButton.getHeight()/2) + playButton.getHeight()));
 
         rulesRect.set(
-                     (screenWidth/2 - rulesButton.getMinimumWidth()/2),
-                (int)(475 * scaleFactor),
-                     ((screenWidth/2 - rulesButton.getMinimumWidth()/2) + rulesButton.getMinimumWidth()),
-                (int)((475 * scaleFactor) + rulesButton.getMinimumHeight()));
+                (screenWidth/2 - rulesButton.getMinimumWidth()/2),
+                (int)(screenHeight - 245 * scaleFactor),
+                ((screenWidth/2 - rulesButton.getMinimumWidth()/2) + rulesButton.getMinimumWidth()),
+                (int)((screenHeight - 245 * scaleFactor) + rulesButton.getMinimumHeight()));
 
         recordRect.set(
                 (int)(rulesRect.left - 300 * scaleFactor),
-                (int)(475 * scaleFactor),
+                (int)(screenHeight - 245 * scaleFactor),
                 (int)((rulesRect.left - 300 * scaleFactor) + recordButton.getMinimumWidth()),
-                (int)((475 * scaleFactor) + recordButton.getMinimumHeight()));
+                (int)((screenHeight - 245 * scaleFactor) + recordButton.getMinimumHeight()));
 
         recordRect2.set(
                 (int)(screenWidth/2 - 275 * scaleFactor),
-                (int)(300 * scaleFactor),
+                (int)(screenHeight/2 - 70 * scaleFactor),
                 (int)((screenWidth/2 - 275 * scaleFactor) + recordButton.getMinimumWidth()),
-                (int)((300 * scaleFactor) + recordButton.getMinimumHeight()));
+                (int)((screenHeight/2 - 70 * scaleFactor) + recordButton.getMinimumHeight()));
 
         settingsRect.set(
-                     (rulesRect.right + rulesRect.left - recordRect.right),
-                (int)(475 * scaleFactor),
-                     ((rulesRect.right + rulesRect.left - recordRect.right) + settingButton.getMinimumWidth()),
-                (int)((475 * scaleFactor) + recordButton.getMinimumHeight()));
+                (rulesRect.right + rulesRect.left - recordRect.right),
+                (int)(screenHeight - 245 * scaleFactor),
+                ((rulesRect.right + rulesRect.left - recordRect.right) + settingButton.getMinimumWidth()),
+                (int)((screenHeight - 245 * scaleFactor) + recordButton.getMinimumHeight()));
 
-        radioButtonRect1.set(
-                (int)(screenWidth/2 + 160 * scaleFactor),
-                (int)(screenHeight - 475 * scaleFactor),
-                (int)((screenWidth/2 + 160 * scaleFactor) + 60 * scaleFactor),
-                (int)((screenHeight - 475 * scaleFactor) + 60 * scaleFactor));
 
-        radioButtonRect2.set(
-                (int)(screenWidth/2 + 160 * scaleFactor),
-                (int)(screenHeight - 375 * scaleFactor),
-                (int)((screenWidth/2 + 160 * scaleFactor) + 60 * scaleFactor),
-                (int)((screenHeight - 375 * scaleFactor) + 60 * scaleFactor));
-
-        radioButtonRect3.set(
-                (int)(screenWidth/2 + 160 * scaleFactor),
-                (int)(screenHeight - 275 * scaleFactor),
-                (int)((screenWidth/2 + 160 * scaleFactor) + 60 * scaleFactor),
-                (int)((screenHeight - 275 * scaleFactor) + 60 * scaleFactor));
 
         continueRect.set(
                 (int)(screenWidth/2 - 275 * scaleFactor),
                 (int)(screenHeight - 180 * scaleFactor),
                 (int)((screenWidth/2 - 275 * scaleFactor) + 550 * scaleFactor),
                 (int)((screenHeight - 180 * scaleFactor) + 100 * scaleFactor));
-
-        headerPoint.set(
-                (int)(screenWidth/2 - 420 * scaleFactor),
-                (int) (210 * scaleFactor));
 
         rulesPoint.set(
                 (int)(rulesRect.left + 50 * scaleFactor),
@@ -196,19 +212,99 @@ public class PanelMenu extends Panel implements ShowHoleIn{
 
         scorePoint.set(
                 (int)(screenWidth/2  -50 * scaleFactor),
-                (int)(screenHeight - 300 * scaleFactor));
+                (int)(recordRect2.centerY() + 30 * scaleFactor));
 
         musicPoint.set(
                 (int)(screenWidth/2  - 220 * scaleFactor),
-                (int)(screenHeight - 420 * scaleFactor));
+                (int)(screenHeight/2 - 50 * scaleFactor));
 
         soundFxPoint.set(
                 (int)(screenWidth/2  - 220 * scaleFactor),
-                (int)(screenHeight - 320 * scaleFactor));
+                (int)(screenHeight/2 + 50 * scaleFactor));
 
         vibrationPoint.set(
                 (int)(screenWidth/2  - 220 * scaleFactor),
-                (int)(screenHeight - 220 * scaleFactor));
+                (int)(screenHeight/2 + 150 * scaleFactor));
+
+        radioButtonRect1.set(
+                (int)(screenWidth/2 + 160 * scaleFactor),
+                (int)(musicPoint.y - 50 * scaleFactor),
+                (int)((screenWidth/2 + 160 * scaleFactor) + 60 * scaleFactor),
+                (int)((musicPoint.y - 50 * scaleFactor) + 60 * scaleFactor));
+
+        radioButtonRect2.set(
+                (int)(screenWidth/2 + 160 * scaleFactor),
+                (int)(soundFxPoint.y - 50 * scaleFactor),
+                (int)((screenWidth/2 + 160 * scaleFactor) + 60 * scaleFactor),
+                (int)((soundFxPoint.y - 50 * scaleFactor) + 60 * scaleFactor));
+
+        radioButtonRect3.set(
+                (int)(screenWidth/2 + 160 * scaleFactor),
+                (int)(vibrationPoint.y - 50 * scaleFactor),
+                (int)((screenWidth/2 + 160 * scaleFactor) + 60 * scaleFactor),
+                (int)((vibrationPoint.y - 50 * scaleFactor) + 60 * scaleFactor));
+
+        headerPoint.set(
+                (int)(screenWidth/2 - 420 * scaleFactor),
+                (int) (210 * scaleFactor));
+
+
+
+
+
+
+
+
+
+
+//        int temp = (int) (screenHeight - 650 * scaleFactor);
+//        int temp = (int) (150 * scaleFactor);
+//        int temp = (int) (screenHeight/2 - 100 * scaleFactor);
+            int temp = (int) (headerPoint.y + 100 * scaleFactor);
+
+        level1Rect.set(
+                (int)(screenWidth/2 - 590 * scaleFactor),
+                (int)(temp),
+                (int)(screenWidth/2 - 590 * scaleFactor + level1icon.getWidth()),
+                (int)(temp + level1icon.getHeight()));
+
+        level2Rect.set(
+                (int)(level1Rect.right + 30 * scaleFactor),
+                (int)(temp),
+                (int)(level1Rect.right + 30 * scaleFactor + level1icon.getWidth()),
+                (int)(temp + level1icon.getHeight()));
+
+        level3Rect.set(
+                (int)(level2Rect.right + 30 * scaleFactor),
+                (int)(temp),
+                (int)(level2Rect.right + 30 * scaleFactor + level1icon.getWidth()),
+                (int)(temp + level1icon.getHeight()));
+
+        level4Rect.set(
+                (int)(level3Rect.right + 30 * scaleFactor),
+                (int)(temp),
+                (int)(level3Rect.right + 30 * scaleFactor + level1icon.getWidth()),
+                (int)(temp + level1icon.getHeight()));
+
+        level5Rect.set(
+                (int)(level4Rect.right + 30 * scaleFactor),
+                (int)(temp),
+                (int)(level4Rect.right + 30 * scaleFactor + level1icon.getWidth()),
+                (int)(temp + level1icon.getHeight()));
+
+        level6Rect.set(
+                (int)(level5Rect.right + 30 * scaleFactor),
+                (int)(temp),
+                (int)(level5Rect.right + 30 * scaleFactor + level1icon.getWidth()),
+                (int)(temp + level1icon.getHeight()));
+
+        level7Rect.set(
+                (int)(level6Rect.right + 30 * scaleFactor),
+                (int)(temp),
+                (int)(level6Rect.right + 30 * scaleFactor + level1icon.getWidth()),
+                (int)(temp + level1icon.getHeight()));
+
+
 
 
         buttons.put("exit",exitRect);
@@ -220,10 +316,23 @@ public class PanelMenu extends Panel implements ShowHoleIn{
         buttons.put("radiofx",radioButtonRect2);
         buttons.put("radiovibrator",radioButtonRect3);
         buttons.put("continue",continueRect);
+        buttons.put("level1",level1Rect);
+        buttons.put("level2",level2Rect);
+        buttons.put("level3",level3Rect);
+        buttons.put("level4",level4Rect);
+        buttons.put("level5",level5Rect);
+        buttons.put("level6",level6Rect);
+        buttons.put("level7",level7Rect);
+
+
+
+        initializeLevelsIcons();
         holeInInitializer();
+
 //        controller = new ControllerMenu(buttons,this,activity);
 
     }
+
 
     public Map<String, Rect> getButtons() {
         return buttons;
@@ -231,6 +340,73 @@ public class PanelMenu extends Panel implements ShowHoleIn{
 
     public void setController(ControllerMenu controller) {
         this.controller = controller;
+    }
+
+    @Override
+    public void initializeLevelsIcons() {
+        switch (activity.getOpenedLevel()) {
+            case 1:
+                level2icon = lockicon;
+                level3icon = lockicon;
+                level4icon = lockicon;
+                level5icon = lockicon;
+                level6icon = lockicon;
+                level7icon = lockicon;
+                break;
+            case 2:
+                level3icon = lockicon;
+                level4icon = lockicon;
+                level5icon = lockicon;
+                level6icon = lockicon;
+                level7icon = lockicon;
+                break;
+            case 3:
+                level4icon = lockicon;
+                level5icon = lockicon;
+                level6icon = lockicon;
+                level7icon = lockicon;
+                break;
+            case 4:
+                level5icon = lockicon;
+                level6icon = lockicon;
+                level7icon = lockicon;
+                break;
+            case 5:
+                level6icon = lockicon;
+                level7icon = lockicon;
+                break;
+            case 6:
+                level7icon = lockicon;
+                break;
+            default:
+                level1icon.recycle();
+                level2icon.recycle();
+                level3icon.recycle();
+                level4icon.recycle();
+                level5icon.recycle();
+                level6icon.recycle();
+                level7icon.recycle();
+                lockicon.recycle();
+                try {
+                    level1icon = BitmapFactory.decodeStream(
+                            activity.getAssets().open( modePng + "level1icon.png"));
+                    level2icon = BitmapFactory.decodeStream(
+                            activity.getAssets().open( modePng + "level2icon.png"));
+                    level3icon = BitmapFactory.decodeStream(
+                            activity.getAssets().open( modePng + "level3icon.png"));
+                    level4icon = BitmapFactory.decodeStream(
+                            activity.getAssets().open( modePng + "level4icon.png"));
+                    level5icon = BitmapFactory.decodeStream(
+                            activity.getAssets().open( modePng + "level5icon.png"));
+                    level6icon = BitmapFactory.decodeStream(
+                            activity.getAssets().open( modePng + "level6icon.png"));
+                    level7icon = BitmapFactory.decodeStream(
+                            activity.getAssets().open( modePng + "level7icon.png"));
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+        }
     }
 
     @Override
@@ -251,6 +427,14 @@ public class PanelMenu extends Panel implements ShowHoleIn{
         title.recycle();
         rule1.recycle();
         rule2.recycle();
+        level1icon.recycle();
+        level2icon.recycle();
+        level3icon.recycle();
+        level4icon.recycle();
+        level5icon.recycle();
+        level6icon.recycle();
+        level7icon.recycle();
+        lockicon.recycle();
     }
 
     @Override
@@ -354,15 +538,19 @@ public class PanelMenu extends Panel implements ShowHoleIn{
                 setOnTouchListener(null);
                 setOnClickListener(controller.getOnClickListener2());
 
-                canvas.drawBitmap(background, screenWidth - background.getWidth(),
-                        screenHeight - background.getHeight(), null);
+//                canvas.drawBitmap(background, screenWidth - background.getWidth(),
+//                        screenHeight - background.getHeight(), null);
+
+//                canvas.drawBitmap(background, null, backRect, null);
 
                 if (controller.getRule() == 0) {
                     canvas.drawBitmap(rule1, screenWidth - background.getWidth(),
                             screenHeight - background.getHeight(), null);
+//                    canvas.drawBitmap(rule1, null, backRect, null);
                 } else {
                     canvas.drawBitmap(rule2, screenWidth - background.getWidth(),
                             screenHeight - background.getHeight(), null);
+//                    canvas.drawBitmap(rule2, null, backRect, null);
                 }
 
                 // Continue draw
@@ -430,6 +618,36 @@ public class PanelMenu extends Panel implements ShowHoleIn{
                 canvas.drawOval(radioButtonRect3.left, radioButtonRect3.top, radioButtonRect3.right, radioButtonRect3.bottom, paintWhite);
             }
 
+            if (controller.getMenuSelect() == 4) {
+                System.out.println(activity.getOpenedLevel());
+                setOnTouchListener(controller.getLevelListener());
+                canvas.drawBitmap(title, null, backRect, null);
+
+                headerPaint.setStyle(Paint.Style.FILL);
+                headerPaint.setColor(Color.WHITE);
+                canvas.drawText("Choose level", headerPoint.x - 20 * scaleFactor, headerPoint.y, headerPaint);
+                headerPaint.setStyle(Paint.Style.STROKE);
+                headerPaint.setColor(Color.BLACK);
+                canvas.drawText("Choose level", headerPoint.x - 20 * scaleFactor, headerPoint.y, headerPaint);
+
+
+                canvas.drawBitmap(level1icon, null, level1Rect, null);
+                canvas.drawBitmap(level2icon, null, level2Rect, null);
+                canvas.drawBitmap(level3icon, null, level3Rect, null);
+                canvas.drawBitmap(level4icon, null, level4Rect, null);
+                canvas.drawBitmap(level5icon, null, level5Rect, null);
+                canvas.drawBitmap(level6icon, null, level6Rect, null);
+                canvas.drawBitmap(level7icon, null, level7Rect, null);
+
+                scorePaint.setStyle(Paint.Style.FILL);
+                scorePaint.setColor(Color.WHITE);
+                canvas.drawText(" Tap to go back", continuePoint.x, continuePoint.y, scorePaint);
+                scorePaint.setStyle(Paint.Style.STROKE);
+                scorePaint.setColor(Color.BLACK);
+                canvas.drawText(" Tap to go back", continuePoint.x, continuePoint.y, scorePaint);
+
+            }
+
             if (showHoleIn) {
                 System.out.println("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ");
                 setOnTouchListener(null);
@@ -451,7 +669,6 @@ public class PanelMenu extends Panel implements ShowHoleIn{
                     controller.doAfterHoleAction();
                 }
             }
-
 
             invalidate();
         }

@@ -95,78 +95,78 @@ public class PanelGameOver extends Panel implements ShowHoleIn {
 
 
 
-            recordRect.set(
+        recordRect.set(
                 (int)(gameField.left + 250 * scaleFactor),
-                (int)(270 * scaleFactor),
+                (int)(gameField.top + 200 * scaleFactor),
                 (int)((gameField.left + 250 * scaleFactor) + record.getMinimumWidth()),
-                (int)((270 * scaleFactor) + record.getMinimumHeight()));
+                (int)((gameField.top + 200 * scaleFactor) + record.getMinimumHeight()));
 
-            rainRect.set(gameField.left, gameField.top, gameField.right, gameField.bottom);
+        rainRect.set(gameField.left, gameField.top, gameField.right, gameField.bottom);
 
-            repeatRect.set(
-                (int)(gameField.left + 170 * scaleFactor),
-                (int)(520 * scaleFactor),
-                (int)((gameField.left + 170 * scaleFactor) + repeatButton.getMinimumWidth()),
-                (int)((520 * scaleFactor) + repeatButton.getMinimumHeight()));
+        repeatRect.set(
+                (int)(gameField.left + 160 * scaleFactor),
+                (int)(gameField.bottom - 200 * scaleFactor),
+                (int)((gameField.left + 160 * scaleFactor) + repeatButton.getMinimumWidth()),
+                (int)((gameField.bottom - 200 * scaleFactor) + repeatButton.getMinimumHeight()));
 
-            likeRect.set(
+        likeRect.set(
                 (int)(repeatRect.right + 60 * scaleFactor),
-                (int)(520 * scaleFactor),
+                (int)(repeatRect.top),
                 (int)((repeatRect.right + 60 * scaleFactor) + likeButton.getMinimumWidth()),
-                (int)((520 * scaleFactor) + likeButton.getMinimumHeight()));
+                (int)(repeatRect.bottom));
 
-            shareRect.set(
+        shareRect.set(
                 (int)(likeRect.right + 60 * scaleFactor),
-                (int)(520 * scaleFactor),
+                (int)(repeatRect.top),
                 (int)((likeRect.right + 60 * scaleFactor) + shareButton.getMinimumWidth()),
-                (int)((520 * scaleFactor) + shareButton.getMinimumHeight()));
-
-            homeRect.set(
+                (int)(repeatRect.bottom));
+//
+        homeRect.set(
                 (int)(shareRect.right + 60 * scaleFactor),
-                (int)(520 * scaleFactor),
+                (int)(repeatRect.top),
                 (int)((shareRect.right + 60 * scaleFactor) + homeButton.getMinimumWidth()),
-                (int)((520 * scaleFactor) + homeButton.getMinimumHeight()));
+                (int)(repeatRect.bottom));
 
-             exitRect.set(
+        exitRect.set(
                 (int)(screenWidth - exitButton.getMinimumWidth() - 20 * scaleFactor),
                 (int)(20 * scaleFactor),
                 (int)(screenWidth - 20 * scaleFactor),
                 (int)(20 * scaleFactor + exitButton.getMinimumHeight()));
 
 
-            headerPoint.set(
+        headerPoint.set(
                 (int)(gameField.left + 115 * scaleFactor),
-                (int)(210 * scaleFactor));
+                (int)(gameField.top + 150 * scaleFactor));
 
-            headerPoint2.set(
+        headerPoint2.set(
                 (int)(gameField.left + 150 * scaleFactor),
-                (int)(210 * scaleFactor));
+                (int)(gameField.top + 150 * scaleFactor));
 
-            repeatPoint.set(
+        repeatPoint.set(
                 (int)(repeatRect.left),
                 (int)(repeatRect.bottom + 40 * scaleFactor));
 
-            likePoint.set(
+        likePoint.set(
                 (int)(likeRect.left + 20 * scaleFactor),
                 (int)(repeatRect.bottom + 40 * scaleFactor));
 
-            homePoint.set(
+        homePoint.set(
                 (int)(homeRect.left + 5 * scaleFactor),
                 (int)(homeRect.bottom + 40 * scaleFactor));
 
-            sharePoint.set(
+        sharePoint.set(
                 (int)(shareRect.left + 10 * scaleFactor),
                 (int)(repeatRect.bottom + 40 * scaleFactor));
 
-            scorePoint.set(
+        scorePoint.set(
                 (int)(gameField.left + 450 * scaleFactor),
                 (int)(screenHeight - 330 * scaleFactor));
 
-            bestRecordPoint.set(
+        bestRecordPoint.set(
                 (int)(gameField.left + 200 * scaleFactor),
                 (int)(gameField.top + 290 * scaleFactor));
 
-            scorePoint2.set(
+        scorePoint2.set(
                 (int)(gameField.left + 200 * scaleFactor),
                 (int)(gameField.top + 380 * scaleFactor));
 
@@ -210,6 +210,8 @@ public class PanelGameOver extends Panel implements ShowHoleIn {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        canvas.drawColor(Color.BLACK);
+
         if (showElemets) {
 
             super.onDraw(canvas);
@@ -275,10 +277,10 @@ public class PanelGameOver extends Panel implements ShowHoleIn {
 
             signaturePaint.setStyle(Paint.Style.FILL);
             signaturePaint.setColor(Color.WHITE);
-            canvas.drawText("Replay", repeatPoint.x, repeatPoint.y, signaturePaint);
+            canvas.drawText("Restart", repeatPoint.x, repeatPoint.y, signaturePaint);
             signaturePaint.setStyle(Paint.Style.STROKE);
             signaturePaint.setColor(Color.BLACK);
-            canvas.drawText("Replay", repeatPoint.x, repeatPoint.y, signaturePaint);
+            canvas.drawText("Restart", repeatPoint.x, repeatPoint.y, signaturePaint);
 
             signaturePaint.setStyle(Paint.Style.FILL);
             signaturePaint.setColor(Color.WHITE);
