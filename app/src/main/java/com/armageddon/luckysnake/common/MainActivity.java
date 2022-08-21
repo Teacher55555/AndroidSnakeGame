@@ -1,6 +1,7 @@
 package com.armageddon.luckysnake.common;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Bundle;
@@ -120,14 +121,31 @@ public class MainActivity extends Activity implements Serializable {
     @Override
     public void onBackPressed() {}
 
+    public static int convertDpToPixel ( float dp){
+        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+        float px = dp * (metrics.densityDpi / 160f);
+        return Math.round(px);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        int statusBarHeight = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+        }
+
+        int notchOffSet = 0;
+        if (statusBarHeight > convertDpToPixel(24)) {
+            notchOffSet = 150;
+        }
+
         Fabric.with(this, new Crashlytics());
         hideActionBar();
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getRealMetrics(displaymetrics);
-        screenWidth = displaymetrics.widthPixels;
+        screenWidth = displaymetrics.widthPixels - notchOffSet;
         screenHeight = displaymetrics.heightPixels;
 
         if (screenHeight >= 1440) {
