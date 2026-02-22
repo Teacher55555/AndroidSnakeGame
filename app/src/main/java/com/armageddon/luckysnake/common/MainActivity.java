@@ -23,8 +23,6 @@ import com.armageddon.luckysnake.levels.LevelGameOver;
 import com.armageddon.luckysnake.levels.LevelMenu;
 import com.armageddon.luckysnake.levels.LevelNextLevel;
 
-import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -141,7 +139,6 @@ public class MainActivity extends Activity implements Serializable {
             notchOffSet = 150;
         }
 
-        Fabric.with(this, new Crashlytics());
         hideActionBar();
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getRealMetrics(displaymetrics);
